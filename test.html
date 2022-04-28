@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Observer test</title>
+
+
+    <script src="Observer.js"></script>
+    <script src="MVC.js"></script>
+</head>
+
+<body>
+    <input type="text">
+
+    <p>
+    <div id="output"></div>
+    </p>
+
+    <br>
+
+    <div id="links">
+        <a href="#!">catch</a> <br>
+        <a href="#!">tiger</a>
+    </div>
+
+    <p>
+    <div id="clickedLinkOutput"></div>
+    </p>
+
+
+    <script>
+
+        let model = new Model();
+        let view = new View(model);
+
+        model.addKey('content');
+        model.addKey('clickedLink');
+
+        view.addInput(document.getElementsByTagName('input')[0], 'content');
+        view.addOutput(document.getElementById('output'), 'content');
+
+        view.addGroupedClickable(document.getElementById('links').getElementsByTagName('a'), 'clickedLink');
+
+        view.addOutput(document.getElementById('clickedLinkOutput'), 'clickedLink');
+
+        model.set('content', 45);
+
+    </script>
+</body>
+
+</html>
