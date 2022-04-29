@@ -83,7 +83,7 @@ class View {
 
     /**
      * 
-     * @param {Model} model 
+     * @param {Model} model
      */
     constructor(model) {
         if (!(model instanceof Model))
@@ -94,10 +94,10 @@ class View {
 
     /**
      * 
-     * @param {HTMLElement} element 
-     * @param {string} modelKeyName 
+     * @param {string} modelKeyName
+     * @param {HTMLElement} element
      */
-    addInput(element, modelKeyName) {
+    addInput(modelKeyName, element) {
         // set a new observable input for this element
         let oIn = new ObservableInput(element);
         // state will change on input
@@ -114,7 +114,7 @@ class View {
         })
     }
 
-    addGroupedClickable(clickableList, modelKeyName) {
+    addGroupedClickable(modelKeyName, clickableList) {
         // set a new observable link input for this element
         let oGrpedClk = new ObservableGroupedClickable(clickableList);
         // state will change on click
@@ -126,10 +126,10 @@ class View {
 
     /**
      * 
-     * @param {HTMLElement} element 
      * @param {string} modelKeyName 
+     * @param {HTMLElement} element
      */
-    addOutput(element, modelKeyName) {
+    addOutput(modelKeyName, element) {
 
         element.innerText = this.model.get(modelKeyName);
         this.model.addObserverHandler(

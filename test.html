@@ -69,8 +69,8 @@
 
 
         view.addGroupedClickable(
-            document.getElementById('links').getElementsByTagName('a'),
-            'clickedLink');
+            'clickedLink',
+            document.getElementById('links').getElementsByTagName('a'));
         model.addObserverHandler('clickedLink', (v) => {
             model.set('active-content-title', contents[v]['title']);
             model.set('active-content', contents[v]['text']);
@@ -89,20 +89,20 @@
 
 
         view.addInput(
-            document.getElementById('input-contentTitle'),
-            'active-content-title');
+            'active-content-title',
+            document.getElementById('input-contentTitle'));
         view.addInput(
-            document.getElementById('textArea-contentInput'),
-            'active-content');
+            'active-content',
+            document.getElementById('textArea-contentInput'));
 
 
 
         view.addOutput(
-            document.getElementById('titleContentOutput'),
-            'active-content-title');
+            'active-content-title',
+            document.getElementById('titleContentOutput'));
         view.addOutput(
-            document.getElementById('textContentOutput'),
-            'active-content');
+            'active-content',
+            document.getElementById('textContentOutput'));
 
     </script>
 </body>
