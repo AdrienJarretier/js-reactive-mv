@@ -8,26 +8,33 @@
 
 
     <script src="Observer.js"></script>
-    <script src="MVC.js"></script>
+    <script src="MV.js"></script>
+
+    <style>
+        div {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
-    <input type="text">
-
-    <p>
-    <div id="output"></div>
-    </p>
-
-    <br>
 
     <div id="links">
-        <a href="#!">catch</a> <br>
+        <a href="#!">insect</a> <br>
         <a href="#!">tiger</a>
     </div>
 
-    <p>
+    <div>
+        <input id="input-contentTitle" type="text">
+    </div>
+
+    <div>
+        <textarea id="textArea-contentInput"></textarea>
+    </div>
+
+    <div id="output"></div>
+
     <div id="clickedLinkOutput"></div>
-    </p>
 
 
     <script>
@@ -35,17 +42,35 @@
         let model = new Model();
         let view = new View(model);
 
-        model.addKey('content');
+        let contents = {
+            'insect': {
+                'title': 'insect',
+                'text': 'bzzzz bzzzz bzzzz'
+            },
+            'tiger': {
+                'title': 'tiger',
+                'text': 'This is grrrr grrrr'
+            }
+        };
+
         model.addKey('clickedLink');
+        model.addKey('active-content');
 
-        view.addInput(document.getElementsByTagName('input')[0], 'content');
-        view.addOutput(document.getElementById('output'), 'content');
+        view.addGroupedClickable(
+            document.getElementById('links').getElementsByTagName('a'),
+            'clickedLink');
 
-        view.addGroupedClickable(document.getElementById('links').getElementsByTagName('a'), 'clickedLink');
+        view.addCustomObserver((v) => {
+            model.set('active-content', contents[v]);
+        }, 'clickedLink');
 
-        view.addOutput(document.getElementById('clickedLinkOutput'), 'clickedLink');
+        view.addInput(
+            document.getElementById('textArea-contentInput'),
+            'active-content', 'text');
 
-        model.set('content', 45);
+
+
+
 
     </script>
 </body>
