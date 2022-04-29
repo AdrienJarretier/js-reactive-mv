@@ -56,21 +56,22 @@
         model.addKey('clickedLink');
         model.addKey('active-content');
 
+        model.addObserverHandler('clickedLink', (v) => {
+            model.set('active-content', contents[v]['text']);
+        });
+        model.addObserverHandler('active-content', (v) => {
+            if (model.get('clickedLink')) {
+                contents[model.get('clickedLink')].text = v;
+            }
+        });
+
         view.addGroupedClickable(
             document.getElementById('links').getElementsByTagName('a'),
             'clickedLink');
 
-        view.addCustomObserver((v) => {
-            model.set('active-content', contents[v]);
-        }, 'clickedLink');
-
         view.addInput(
             document.getElementById('textArea-contentInput'),
-            'active-content', 'text');
-
-
-
-
+            'active-content');
 
     </script>
 </body>

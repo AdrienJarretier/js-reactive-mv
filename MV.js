@@ -38,7 +38,6 @@ class Model {
     }
 
     set(keyName, value) {
-        console.log('set', keyName, value);
         this.#get(keyName).setState(value);
     }
 
@@ -137,18 +136,5 @@ class View {
             modelKeyName,
             (val) => { element.innerText = val });
 
-    }
-
-
-    /**
-     * 
-     * @param {Function} handler 
-     * @param {string} modelKeyName 
-     */
-    addCustomObserver(handler, modelKeyName) {
-
-        this.model.addObserverHandler(
-            modelKeyName,
-            handler);
     }
 }
