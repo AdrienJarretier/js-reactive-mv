@@ -1,6 +1,10 @@
 class Model {
 
-    static nextUniqueKey = 0;
+    static #nextUniqueKey = 0;
+
+    static getNextUniqueKey() {
+        return this.#nextUniqueKey++;
+    }
 
     #state;
 
@@ -26,7 +30,7 @@ class Model {
             throw keyName + ' already in model';
 
         this.#state[keyName] = new Observable();
-        this.#state[keyName].setState(value);
+        this.set(keyName, value);
     }
 
     /**
@@ -40,7 +44,7 @@ class Model {
     }
 
     set(keyName, value) {
-        // console.log('Model.set [' + keyName + '] : ' + value);
+        console.log('Model.set [', keyName, '] :', value);
         this.#get(keyName).setState(value);
     }
 
@@ -141,26 +145,29 @@ class View {
 
     }
 
-    addContentSwitcher(clickableList, contentsObject) {
+    addContentSwitcher(modelContentsKey, clickableList) {
 
-        const groupedClickableKey = 'groupedClickable' + Model.nextUniqueKey++;
+        const uniqueKey = Model.getNextUniqueKey();
 
+        const groupedClickableKey = 'contentSwitcher-' + uniqueKey + '-' + modelContentsKey + '-active';
         this.model.addKey(groupedClickableKey);
+        const contentsObject = this.model.get(modelContentsKey);
+        // console.log(this.model);
 
         this.addGroupedClickable(
             groupedClickableKey,
             clickableList);
 
-
         this.model.addKey(groupedClickableKey + 'title');
         this.model.addKey(groupedClickableKey + 'text');
-
 
         this.model.addObserverHandler(groupedClickableKey, (v) => {
             this.model.set(groupedClickableKey + 'title', contentsObject[v]['title']);
             this.model.set(groupedClickableKey + 'text', contentsObject[v]['text']);
         });
         this.model.addObserverHandler(groupedClickableKey + 'title', (v) => {
+            // console.log(groupedClickableKey);
+            // console.log(this.model.get(groupedClickableKey));
             if (this.model.get(groupedClickableKey)) {
                 contentsObject[this.model.get(groupedClickableKey)].title = v;
             }

@@ -54,24 +54,23 @@
 
         let contents = {
             'insect': {
-                'title': 'insect',
+                'title': 'insect-Title',
                 'text': 'bzzzz bzzzz bzzzz'
             },
             'tiger': {
-                'title': 'tiger',
+                'title': 'tiger-Title',
                 'text': 'This is grrrr grrrr'
             }
         };
 
-        // model.addKey('contents', contents);
+        model.addKey('contents', contents);
 
         // model.addKey('clickedLink');
         // model.addKey('active-content-title');
         // model.addKey('active-content');
 
-        let contentSwitcher = view.addContentSwitcher(
-            document.getElementById('links').getElementsByTagName('a'),
-            contents);
+        let contentSwitcher = view.addContentSwitcher('contents',
+            document.getElementById('links').getElementsByTagName('a'));
 
         contentSwitcher.addInput('title', document.getElementById('input-contentTitle'));
         contentSwitcher.addInput('text', document.getElementById('textArea-contentInput'));
