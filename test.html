@@ -63,46 +63,22 @@
             }
         };
 
-        model.addKey('clickedLink');
-        model.addKey('active-content-title');
-        model.addKey('active-content');
+        // model.addKey('contents', contents);
+
+        // model.addKey('clickedLink');
+        // model.addKey('active-content-title');
+        // model.addKey('active-content');
+
+        let contentSwitcher = view.addContentSwitcher(
+            document.getElementById('links').getElementsByTagName('a'),
+            contents);
+
+        contentSwitcher.addInput('title', document.getElementById('input-contentTitle'));
+        contentSwitcher.addInput('text', document.getElementById('textArea-contentInput'));
 
 
-        view.addGroupedClickable(
-            'clickedLink',
-            document.getElementById('links').getElementsByTagName('a'));
-        model.addObserverHandler('clickedLink', (v) => {
-            model.set('active-content-title', contents[v]['title']);
-            model.set('active-content', contents[v]['text']);
-        });
-        model.addObserverHandler('active-content-title', (v) => {
-            if (model.get('clickedLink')) {
-                contents[model.get('clickedLink')].title = v;
-            }
-        });
-        model.addObserverHandler('active-content', (v) => {
-            if (model.get('clickedLink')) {
-                contents[model.get('clickedLink')].text = v;
-            }
-        });
-
-
-
-        view.addInput(
-            'active-content-title',
-            document.getElementById('input-contentTitle'));
-        view.addInput(
-            'active-content',
-            document.getElementById('textArea-contentInput'));
-
-
-
-        view.addOutput(
-            'active-content-title',
-            document.getElementById('titleContentOutput'));
-        view.addOutput(
-            'active-content',
-            document.getElementById('textContentOutput'));
+        contentSwitcher.addOutput('title', document.getElementById('titleContentOutput'));
+        contentSwitcher.addOutput('text', document.getElementById('textContentOutput'));
 
     </script>
 </body>

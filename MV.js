@@ -1,5 +1,7 @@
 class Model {
 
+    static nextUniqueKey = 0;
+
     #state;
 
     constructor() {
@@ -38,6 +40,7 @@ class Model {
     }
 
     set(keyName, value) {
+        // console.log('Model.set [' + keyName + '] : ' + value);
         this.#get(keyName).setState(value);
     }
 
@@ -137,4 +140,60 @@ class View {
             (val) => { element.innerText = val });
 
     }
+
+    addContentSwitcher(clickableList, contentsObject) {
+
+        const groupedClickableKey = 'groupedClickable' + Model.nextUniqueKey++;
+
+        this.model.addKey(groupedClickableKey);
+
+        this.addGroupedClickable(
+            groupedClickableKey,
+            clickableList);
+
+
+        this.model.addKey(groupedClickableKey + 'title');
+        this.model.addKey(groupedClickableKey + 'text');
+
+
+        this.model.addObserverHandler(groupedClickableKey, (v) => {
+            this.model.set(groupedClickableKey + 'title', contentsObject[v]['title']);
+            this.model.set(groupedClickableKey + 'text', contentsObject[v]['text']);
+        });
+        this.model.addObserverHandler(groupedClickableKey + 'title', (v) => {
+            if (this.model.get(groupedClickableKey)) {
+                contentsObject[this.model.get(groupedClickableKey)].title = v;
+            }
+        });
+        this.model.addObserverHandler(groupedClickableKey + 'text', (v) => {
+            if (this.model.get(groupedClickableKey)) {
+                contentsObject[this.model.get(groupedClickableKey)].text = v;
+            }
+        });
+
+        return new ContentSwitcher(this.model, groupedClickableKey);
+    }
+}
+
+class ContentSwitcher extends View {
+
+    /**
+     * 
+     * @param {Model} model
+     */
+    constructor(model, groupedClickableKey) {
+        super(model);
+        this.ModelGroupedClickableKey = groupedClickableKey;
+    }
+
+    addInput(contentKey, element) {
+
+        super.addInput(this.ModelGroupedClickableKey + contentKey, element);
+
+    }
+
+    addOutput(contentKey, element) {
+        super.addOutput(this.ModelGroupedClickableKey + contentKey, element);
+    }
+
 }
