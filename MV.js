@@ -8,11 +8,23 @@ class Model {
 
     }
 
-    addKey(keyName) {
+    #keyExists(keyName) {
+        return keyName in this.#state;
+    }
+
+    #get(keyName) {
+        if (!this.#keyExists(keyName))
+            throw 'key [' + keyName + '] missing in model, call Model.addKey()';
+
+        return this.#state[keyName];
+    }
+
+    addKey(keyName, value = null) {
         if (keyName in this.#state)
             throw keyName + ' already in model';
 
         this.#state[keyName] = new Observable();
+        this.#state[keyName].setState(value);
     }
 
     /**
@@ -21,11 +33,13 @@ class Model {
      * @returns {*} state at model[keyName] 
      */
     get(keyName) {
-        return this.#state[keyName].getState();
+
+        return this.#get(keyName).getState();
     }
 
     set(keyName, value) {
-        this.#state[keyName].setState(value);
+        console.log('set', keyName, value);
+        this.#get(keyName).setState(value);
     }
 
     /**
@@ -34,7 +48,7 @@ class Model {
      * @param {Function} handler 
      */
     addObserverHandler(keyName, handler) {
-        this.#state[keyName].registerObserver(new Observer(handler));
+        this.#get(keyName).registerObserver(new Observer(handler));
     }
 }
 
@@ -123,5 +137,18 @@ class View {
             modelKeyName,
             (val) => { element.innerText = val });
 
+    }
+
+
+    /**
+     * 
+     * @param {Function} handler 
+     * @param {string} modelKeyName 
+     */
+    addCustomObserver(handler, modelKeyName) {
+
+        this.model.addObserverHandler(
+            modelKeyName,
+            handler);
     }
 }
