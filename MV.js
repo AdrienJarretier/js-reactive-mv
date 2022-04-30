@@ -44,7 +44,7 @@ class Model {
     }
 
     set(keyName, value) {
-        console.log('Model.set [', keyName, '] :', value);
+        // console.log('Model.set [', keyName, '] :', value);
         this.#get(keyName).setState(value);
     }
 
