@@ -1,0 +1,1 @@
+- View.addContentSwitcher() handles all keys in contents objects
