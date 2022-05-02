@@ -158,25 +158,22 @@ class View {
             groupedClickableKey,
             clickableList);
 
-        this.model.addKey(groupedClickableKey + 'title');
-        this.model.addKey(groupedClickableKey + 'text');
 
-        this.model.addObserverHandler(groupedClickableKey, (v) => {
-            this.model.set(groupedClickableKey + 'title', contentsObject[v]['title']);
-            this.model.set(groupedClickableKey + 'text', contentsObject[v]['text']);
-        });
-        this.model.addObserverHandler(groupedClickableKey + 'title', (v) => {
-            // console.log(groupedClickableKey);
-            // console.log(this.model.get(groupedClickableKey));
-            if (this.model.get(groupedClickableKey)) {
-                contentsObject[this.model.get(groupedClickableKey)].title = v;
-            }
-        });
-        this.model.addObserverHandler(groupedClickableKey + 'text', (v) => {
-            if (this.model.get(groupedClickableKey)) {
-                contentsObject[this.model.get(groupedClickableKey)].text = v;
-            }
-        });
+        // each object of this.model.get(modelContentsKey) should have the same keys
+        for (let contentKey in Object.values(this.model.get(modelContentsKey))[0]) {
+
+            this.model.addKey(groupedClickableKey + contentKey);
+
+            this.model.addObserverHandler(groupedClickableKey, (v) => {
+                this.model.set(groupedClickableKey + contentKey, contentsObject[v][contentKey]);
+            });
+
+            this.model.addObserverHandler(groupedClickableKey + contentKey, (v) => {
+                if (this.model.get(groupedClickableKey)) {
+                    contentsObject[this.model.get(groupedClickableKey)][contentKey] = v;
+                }
+            });
+        }
 
         return new ContentSwitcher(this.model, groupedClickableKey);
     }
