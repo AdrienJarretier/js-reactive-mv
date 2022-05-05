@@ -58,20 +58,54 @@ class Model {
     }
 }
 
-class ObservableInput extends Observable {
 
-    constructor(inputElement) {
+class AbstractObservableInput extends Observable {
+
+    constructor(inputElement, eventType) {
         super();
+        if (this.constructor === AbstractObservableInput) {
+            throw new TypeError('Abstract class "AbstractConfig" cannot be instantiated directly');
+        }
+
         this.input = inputElement;
-        this.setState(this.input.value);
-        this.input.addEventListener('input', () => {
+        if (window.jQuery && inputElement instanceof jQuery) {
+            this.input = inputElement[0];
+        }
+
+        if (this.input.type == 'checkbox')
+            this.setState(this.input.checked);
+        else
             this.setState(this.input.value);
+
+        this.input.addEventListener(eventType, () => {
+            if (this.input.type == 'checkbox')
+                this.setState(this.input.checked);
+            else
+                this.setState(this.input.value);
         });
     }
 
-    setState(value) {
+    setState(value, inputProperty) {
         super.setState(value);
-        this.input.value = value;
+        if (this.input.type == 'checkbox')
+            this.input.checked = value;
+        else
+            this.input.value = value;
+
+    }
+}
+
+class ObservableInput extends AbstractObservableInput {
+
+    constructor(inputElement) {
+        super(inputElement, 'input');
+    }
+}
+
+class ObservableCheckbox extends AbstractObservableInput {
+
+    constructor(inputElement) {
+        super(inputElement, 'change');
     }
 }
 
@@ -104,9 +138,13 @@ class View {
      * @param {string} modelKeyName
      * @param {HTMLElement} element
      */
-    addInput(modelKeyName, element) {
+    addInput(modelKeyName, element, type = 'text') {
         // set a new observable input for this element
-        let oIn = new ObservableInput(element);
+        let oIn;
+        if (type == 'checkbox')
+            oIn = new ObservableCheckbox(element);
+        else
+            oIn = new ObservableInput(element);
         // state will change on input
         // this observer will reflect this change to the model
         oIn.registerObserver(new Observer(
