@@ -200,4 +200,8 @@ class ContentSwitcher extends View {
         super.addOutput(this.ModelGroupedClickableKey + contentKey, element);
     }
 
+    switchTo(value) {
+        this.model.set(this.ModelGroupedClickableKey, value);
+    }
+
 }

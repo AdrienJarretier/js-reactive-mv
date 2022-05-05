@@ -66,6 +66,7 @@ class Observable {
 
     setState(value) {
         if (value != this._state) {
+            // console.log('Observable.setState :', value);
             this._state = value;
             this.#notifyObservers();
         }
