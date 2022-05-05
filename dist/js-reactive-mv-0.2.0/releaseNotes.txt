@@ -1,0 +1,5 @@
+- ContentSwitcher::switchTo()
+- View.addCOntentSwitcher, to handle content switch base don clicked element
+- View class methods : swapped order of modelKeyName parameter to match Model methods
+- Model.addObserverHandler()
+
