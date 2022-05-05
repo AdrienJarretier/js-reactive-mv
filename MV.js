@@ -58,7 +58,6 @@ class Model {
     }
 }
 
-
 class AbstractObservableInput extends Observable {
 
     constructor(inputElement, eventType) {
@@ -85,7 +84,7 @@ class AbstractObservableInput extends Observable {
         });
     }
 
-    setState(value, inputProperty) {
+    setState(value) {
         super.setState(value);
         if (this.input.type == 'checkbox')
             this.input.checked = value;
@@ -243,3 +242,4 @@ class ContentSwitcher extends View {
     }
 
 }
+
