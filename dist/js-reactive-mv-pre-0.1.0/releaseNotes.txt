@@ -1,8 +1,0 @@
-- some cleanup
-- content switcher unique key
-- View.addCOntentSwitcher, to handle content switch base don clicked element
-- View class methods : swapped order of modelKeyName parameter to match Model methods
-- update tests, using custom observerHandlers to save data to contents object
-- remove View.addCustomObserver(), use Model.addObserverHandler(à instead
-- update test.html
-- model methods throw error if key does not exist in model, View:addCustomObserver, to speicify a custom handler for a specific modelKey
